@@ -1,20 +1,20 @@
 //
-//  AlbumsTableViewCell.swift
+//  CommonAlbumsTableViewCell.swift
 //  HW13
 //
-//  Created by Ольга on 13.12.2021.
+//  Created by Ольга on 15.12.2021.
 //
 
 import UIKit
 
-class AlbumsTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class CommonAlbumsTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    static let identifier = "AlbumsTableViewCell"
+    static let identifier = "CommonAlbumsTableViewCell"
     
-    private let sectionInsets = UIEdgeInsets(
-      top: 10,
+    private let collectionInsets = UIEdgeInsets(
+      top: 20,
       left: 20,
-      bottom: 10,
+      bottom: 20,
       right: 20)
     
     @IBOutlet weak var headerLabel: UILabel!
@@ -24,7 +24,7 @@ class AlbumsTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     var models = [Model]()
     
     static func nib() -> UINib {
-        return UINib(nibName: "AlbumsTableViewCell", bundle: nil)
+        return UINib(nibName: "CommonAlbumsTableViewCell", bundle: nil)
     }
 
     override func awakeFromNib() {
@@ -32,11 +32,11 @@ class AlbumsTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
         
         contentView.addSubview(headerLabel)
         contentView.addSubview(buttonLabel)
-        headerLabel.text = "Мои альбомы"
+        headerLabel.text = "Общие альбомы"
         buttonLabel.text = "См. все"
         buttonLabel.textColor = .systemBlue
         
-        collectionView.register(MyAlbumsCollectionViewCell.nib(), forCellWithReuseIdentifier: MyAlbumsCollectionViewCell.identifier)
+        collectionView.register(CommonAlbumsCollectionViewCell.nib(), forCellWithReuseIdentifier: CommonAlbumsCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -55,9 +55,9 @@ class AlbumsTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return models.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyAlbumsCollectionViewCell.identifier, for: indexPath) as! MyAlbumsCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommonAlbumsCollectionViewCell.identifier, for: indexPath) as! CommonAlbumsCollectionViewCell
         cell.configure(with: models[indexPath.row])
         return cell
     }
@@ -67,10 +67,10 @@ class AlbumsTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-      return sectionInsets
+      return collectionInsets
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-      return sectionInsets.left
+      return collectionInsets.left
     }
 }

@@ -10,7 +10,8 @@ import UIKit
 class AlbumsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let tableView = UITableView(frame: .zero, style: .plain)
-    var models = [Model]()
+    var firstRowModels = [Model]()
+    var secondRowModels = [Model]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,22 +19,33 @@ class AlbumsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         setupView()
         setupHierarchy()
         setupLayout()
-        configure()
+        configureFirstRow()
+        configureSecondRow()
+        
+        tableView.register(CommonAlbumsTableViewCell.nib(), forCellReuseIdentifier: CommonAlbumsTableViewCell.identifier)
+        
         
         tableView.register(AlbumsTableViewCell.nib(), forCellReuseIdentifier: AlbumsTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    func configure() {
-        models.append(Model(text: "Недавние", imageName: "image_1", number: "1 234"))
-        models.append(Model(text: "Избранное", imageName: "image_2", number: "234"))
-        models.append(Model(text: "WhatsApp", imageName: "image_3", number: "1 089"))
-        models.append(Model(text: "Instagram", imageName: "image_4", number: "215"))
-        models.append(Model(text: "Фото", imageName: "image_5", number: "2 078"))
-        models.append(Model(text: "Путешествия", imageName: "image_6", number: "346"))
-        models.append(Model(text: "Обои", imageName: "image_7", number: "10"))
-        models.append(Model(text: "Фотосессия", imageName: "image_8", number: "35"))
+    func configureFirstRow() {
+        firstRowModels.append(Model(text: "Недавние", imageName: "image_1", number: "1 234"))
+        firstRowModels.append(Model(text: "Избранное", imageName: "image_2", number: "234"))
+        firstRowModels.append(Model(text: "WhatsApp", imageName: "image_3", number: "1 089"))
+        firstRowModels.append(Model(text: "Instagram", imageName: "image_4", number: "215"))
+        firstRowModels.append(Model(text: "Фото", imageName: "image_5", number: "2 078"))
+        firstRowModels.append(Model(text: "Путешествия", imageName: "image_6", number: "346"))
+        firstRowModels.append(Model(text: "Обои", imageName: "image_7", number: "10"))
+        firstRowModels.append(Model(text: "Фотосессия", imageName: "image_8", number: "35"))
+    }
+    
+    func configureSecondRow() {
+        secondRowModels.append(Model(text: "Недавние", imageName: "image_1", number: "1 234"))
+        secondRowModels.append(Model(text: "Избранное", imageName: "image_2", number: "234"))
+        secondRowModels.append(Model(text: "WhatsApp", imageName: "image_3", number: "1 089"))
+        secondRowModels.append(Model(text: "Instagram", imageName: "image_4", number: "215"))
     }
     
     // MARK: - Settings
@@ -61,19 +73,34 @@ class AlbumsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AlbumsTableViewCell.identifier, for: indexPath) as! AlbumsTableViewCell
-        cell.configure(with: models)
-        return cell
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: AlbumsTableViewCell.identifier) as! AlbumsTableViewCell
+            cell.selectionStyle = .none
+            cell.configure(with: firstRowModels)
+            return cell
+        } else if indexPath.row == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CommonAlbumsTableViewCell.identifier) as! CommonAlbumsTableViewCell
+            cell.selectionStyle = .none
+            cell.configure(with: secondRowModels)
+            return cell
+        }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 510
+        var height:CGFloat = CGFloat()
+        if indexPath.row == 0 {
+            height = 550
+        } else if indexPath.row == 1 {
+            height = 295
+                }
+        return height
     }
 }
 
