@@ -7,8 +7,14 @@
 
 import Foundation
 
+//struct Section {
+//    let title: String
+//    let options: [Model]
+//}
+
 struct Model {
     let text: String
     let imageName: String
     let number: String
 }
+
